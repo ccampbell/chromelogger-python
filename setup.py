@@ -9,6 +9,5 @@ setup(
     author='Craig Campbell',
     author_email='iamcraigcampbell@gmail.com',
     install_requires=['jsonpickle'],
-    # packages=['chromelogger'],
     py_modules=['chromelogger']
 )
