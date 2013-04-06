@@ -23,7 +23,6 @@ class Console(object):
         }
         self.backtrace_level = 2
         self.backtraces = []
-        self.objects = []
 
     @staticmethod
     def instance():
