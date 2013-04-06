@@ -109,6 +109,12 @@ def error(*args):
     Console.instance()._log(args)
 
 
+# this is middleware for django.  ater this module is installed just add
+# "chromelogger.DjangoMiddleware" to your MIDDLEWARE_CLASSES in settings.py
+#
+# after that you can just
+# import chromelogger
+# chromelogger.log('Hello world!')
 class DjangoMiddleware(object):
     def process_response(self, request, response):
         header = get_header()
