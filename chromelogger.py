@@ -41,6 +41,9 @@ class Console(object):
         type = args[0:1]
         args = args[1:]
 
+        # since this is data being transmitted as a header setting
+        # log to empty string is just a way to send less data
+        # the extension defaults to doing console.log
         if type == 'log':
             type = ''
 
@@ -50,11 +53,16 @@ class Console(object):
 
         backtrace_info = traceback.extract_stack()[:-self.backtrace_level].pop()
 
+        # path/to/file.py : line_number
         backtrace = backtrace_info[0] + ' : ' + str(backtrace_info[1])
 
+        # if two logs are on the same line (for example in a loop)
+        # then we should not log the backtrace again
         if backtrace in self.backtraces:
             backtrace = None
 
+        # store backtraces in list so we can tell later if it was
+        # already used
         if backtrace is not None:
             self.backtraces.append(backtrace)
 
@@ -66,6 +74,11 @@ class Console(object):
         row = [logs, backtrace, type]
         self.json['rows'].append(row)
 
+        # if a set_header function is defined then we will
+        # call that with each row added
+        #
+        # this class is a singleton so it will just overwrite
+        # the existing header with more data each time
         if set_header is not None:
             set_header(Console.HEADER_NAME, self._encode(self.json))
 
@@ -81,16 +94,16 @@ class Console(object):
         return (Console.HEADER_NAME, self._encode(self.json))
 
 
+def reset():
+    Console._instance = None
+
+
 def get_header(flush=True):
     header = Console.instance()._get_header()
     if flush:
         reset()
 
     return header
-
-
-def reset():
-    Console._instance = None
 
 
 def log(*args):
@@ -114,6 +127,8 @@ def error(*args):
 # after that you can just
 # import chromelogger
 # chromelogger.log('Hello world!')
+#
+# from anywhere in your Django application
 class DjangoMiddleware(object):
     def process_response(self, request, response):
         header = get_header()
