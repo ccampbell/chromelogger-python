@@ -12,5 +12,6 @@ setup(
     download_url='https://github.com/ccampbell/chromelogger-python/zipball/0.2.1',
     license='Apache 2.0',
     install_requires=['jsonpickle'],
-    py_modules=['chromelogger']
+    py_modules=['chromelogger'],
+    platforms=["any"]
 )
