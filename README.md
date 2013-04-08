@@ -2,6 +2,8 @@
 
 Chromelogger is a Python library for logging variables to the Google Chrome console using the Chrome Logger extension.
 
+For more information about Chrome Logger check out [http://chromelogger.com](http://chromelogger.com).
+
 ## Getting Started
 
 1. Install [Chrome Logger](https://chrome.google.com/extensions/detail/noaneddfkdjfnfdakjjmocngnfkfehhd) from the Chrome Web Store
