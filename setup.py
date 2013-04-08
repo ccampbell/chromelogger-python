@@ -4,8 +4,8 @@ from setuptools import setup
 setup(
     name='chromelogger',
     version='0.2.1',
-    description='Python library for Chrome Logger extension.',
-    long_description='Chrome Logger allows you to send server side logs to the Google Chrome console.',
+    description='Python library for logging data to Google Chrome console.',
+    long_description='Chrome Logger allows you to send server side logs from your application to the Chrome Logger extension.',
     author='Craig Campbell',
     author_email='iamcraigcampbell@gmail.com',
     url='https://github.com/ccampbell/chromelogger-python',
