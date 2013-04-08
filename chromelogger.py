@@ -13,7 +13,8 @@
 # limitations under the License.
 #
 # uses Chrome Logger extension for logging
-# https://chrome.google.com/webstore/detail/noaneddfkdjfnfdakjjmocngnfkfehhd
+# @see https://chrome.google.com/webstore/detail/noaneddfkdjfnfdakjjmocngnfkfehhd
+# @see http://chromelogger.com
 import json
 import traceback
 import jsonpickle
