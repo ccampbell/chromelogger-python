@@ -21,17 +21,19 @@ import jsonpickle
 # use custom name
 jsonpickle.tags.OBJECT = '___class_name'
 set_header = None
+version = '0.2.2'
 
 
 class Console(object):
-    VERSION = '0.2.1'
     HEADER_NAME = 'X-ChromeLogger-Data'
 
     _instance = None
 
     def __init__(self):
+        global version
+
         self.json = {
-            'version': Console.VERSION,
+            'version': version,
             'columns': ['log', 'backtrace', 'type'],
             'rows': []
         }
