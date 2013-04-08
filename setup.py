@@ -9,7 +9,7 @@ setup(
     author='Craig Campbell',
     author_email='iamcraigcampbell@gmail.com',
     url='https://github.com/ccampbell/chromelogger-python',
-    download_url='https://github.com/ccampbell/chromelogger-python/archive/0.2.1.zip',
+    download_url='https://github.com/ccampbell/chromelogger-python/archive/0.2.1.zip#egg=chromelogger-0.2.1',
     license='Apache 2.0',
     install_requires=['jsonpickle'],
     py_modules=['chromelogger'],
