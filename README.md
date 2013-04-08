@@ -96,6 +96,8 @@ chromelogger.get_header()
 # ('X-ChromeLogger-Data', 'eyJyb3dzIjogW1tbMTIzXSwgIjxzdGRpbj4gOiAxIiwgWyJsb2ciXV1dLCAidmVyc2lvbiI6ICIwLjIuMiIsICJjb2x1bW5zIjogWyJsb2ciLCAiYmFja3RyYWNlIiwgInR5cGUiXX0=')
 ```
 
+``chromelogger.get_header()`` will return ``None`` if there is no data to log.
+
 ### chromelogger.set_header = None
 
 As an alternative to ``get_header`` you can specify a function that can be used to set a header.  The function should accept two parameters (header name and value).  Usage would look something like:
