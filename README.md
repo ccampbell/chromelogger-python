@@ -49,13 +49,13 @@ import chromelogger
 
 class CustomRequestHandler(tornado.web.RequestHandler):
     def finish(self, chunk=None):
-            header = chromelogger.get_header()
+        header = chromelogger.get_header()
 
-            if header is not None:
+        if header is not None:
 
-                # in Tornado RequestHandler.set_header() function limits
-                # header length to 1000 bytes, so set directly for this case
-                self._headers[header[0]] = header[1]
+            # in Tornado RequestHandler.set_header() function limits
+            # header length to 1000 bytes, so set directly for this case
+            self._headers[header[0]] = header[1]
 
         return super(CustomRequestHandler, self).finish(chunk=chunk)
 ```
