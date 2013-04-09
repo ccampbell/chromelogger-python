@@ -153,3 +153,14 @@ class DjangoMiddleware(object):
             response[header[0]] = header[1]
 
         return response
+    
+def ChromeLoggerPlugin(callback):
+    from bottle import response
+    def wrapper(*args, **kwargs):
+        body = callback(*args, **kwargs)
+        header = get_header()
+        if header is not None:
+            response.headers[header[0]] = header[1]
+        return body
+    return wrapper
+

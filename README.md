@@ -63,6 +63,28 @@ class CustomRequestHandler(tornado.web.RequestHandler):
         return super(CustomRequestHandler, self).finish(chunk=chunk)
 ```
 
+### Using with Bottle
+
+The library includes a plugin for using with Bottle. Here is a simple example of how to implement it.
+
+```python
+from bottle import Bottle, run
+import chromelogger # Import library
+
+app = Bottle()
+app.install(chromelogger.ChromeLoggerPlugin) # Install plugin
+
+@app.route('/')
+def main():
+    chromelogger.log('Hello console!') # Start logging
+
+    return 'Hello browser!'
+
+run(app)
+
+
+```
+
 ## API Documentation
 
 The chromelogger module exposes some of the chrome logger methods.  The others will be coming in a future release.
