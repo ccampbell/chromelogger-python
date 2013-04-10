@@ -23,6 +23,7 @@ For more information about Chrome Logger check out [http://chromelogger.com](htt
     ```python
     import chromelogger as console
     console.log('Hello console!')
+    console.get_header()
     ```
 
 ## Sending Headers
@@ -43,7 +44,7 @@ After that you can import the chromelogger class from any file in your applicati
 
 ### Using with Tornado
 
-Using with tornado is slightly more complicated.  You have to make sure you are using your own custom request handler and that all your requests you want logged inherit from that.  Here is an example of how you would implement it
+Using with tornado is slightly more complicated.  You have to make sure you are using your own custom request handler and that all your requests you want logged inherit from that.  Here is an example of how you could implement it
 
 ```python
 import tornado
@@ -63,4 +64,58 @@ class CustomRequestHandler(tornado.web.RequestHandler):
 ```
 
 ## API Documentation
+
+The chromelogger module exposes some of the chrome logger methods.  The others will be coming in a future release.
+
+### chromelogger.log(*args)
+### chromelogger.warn(*args)
+### chromelogger.error(*args)
+
+Logs data to the console.  You can pass any number of arguments just as you would in the browser.
+
+```python
+chromelogger.log('width', width, 'height', height)
+```
+
+### chromelogger.version
+
+Outputs a string of the current version of this module
+
+### chromelogger.get_header(flush=True)
+
+Returns a tuple with the header name and value to set in order to transmit your logs.
+
+If ``flush`` argument is ``True`` all the data stored during this request will be flushed.
+
+This is the preferred way to use this module.  At the end of each request you should call this method and add this header to the response.
+
+```python
+import chromelogger
+chromelogger.log(123)
+chromelogger.get_header()
+# ('X-ChromeLogger-Data', 'eyJyb3dzIjogW1tbMTIzXSwgIjxzdGRpbj4gOiAxIiwgWyJsb2ciXV1dLCAidmVyc2lvbiI6ICIwLjIuMiIsICJjb2x1bW5zIjogWyJsb2ciLCAiYmFja3RyYWNlIiwgInR5cGUiXX0=')
+```
+
+``chromelogger.get_header()`` will return ``None`` if there is no data to log.
+
+### chromelogger.set_header = None
+
+As an alternative to ``get_header`` you can specify a function that can be used to set a header.  The function should accept two parameters (header name and value).  Usage would look something like:
+
+```python
+def set_header(name, value):
+    # do stuff here to set header
+    pass
+
+chromelogger.set_header = set_header
+```
+
+When ``chromelogger.set_header`` is not equal to ``None`` it will be called each time data is logged to set the header.  The class is a singleton so it will just keep overwriting the same header with more data as more data is added.
+
+If you are going to use this you have to make sure to call ``chromelogger.reset()`` at the beginning of each request or at the end of each request in order to ensure the same data does not carry over into future requests.
+
+### chromelogger.reset()
+
+Clears out any data that has been set during this request.
+
 
