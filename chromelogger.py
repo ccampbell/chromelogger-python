@@ -20,103 +20,91 @@ import traceback
 import jsonpickle
 
 # use custom name
+# @todo do not do this globally
 jsonpickle.tags.OBJECT = '___class_name'
+
+version = '0.3.0'
+HEADER_NAME = 'X-ChromeLogger-Data'
+BACKTRACE_LEVEL = 2
+DATA = {
+    'version': version,
+    'columns': ['log', 'backtrace', 'type']
+}
+
 set_header = None
-version = '0.2.2'
+rows = []
+backtraces = []
 
 
-class Console(object):
-    HEADER_NAME = 'X-ChromeLogger-Data'
+def _convert(data):
+    return json.loads(jsonpickle.encode(data))
 
-    _instance = None
 
-    def __init__(self):
-        global version
+def _log(args):
+    global backtraces
 
-        self.json = {
-            'version': version,
-            'columns': ['log', 'backtrace', 'type'],
-            'rows': []
-        }
-        self.backtrace_level = 2
-        self.backtraces = []
+    type = args[0:1]
+    args = args[1:]
 
-    @staticmethod
-    def instance():
-        if Console._instance is None:
-            Console._instance = Console()
+    # since this is data being transmitted as a header setting
+    # log to empty string is just a way to send less data
+    # the extension defaults to doing console.log
+    if type == 'log':
+        type = ''
 
-        return Console._instance
+    logs = [_convert(arg) for arg in args]
 
-    def _is_literal(self, data):
-        return data is None or isinstance(data, (str, int, long, float, bool))
+    backtrace_info = traceback.extract_stack()[:-BACKTRACE_LEVEL].pop()
 
-    def _convert(self, data):
-        return json.loads(jsonpickle.encode(data))
+    # path/to/file.py : line_number
+    backtrace = '%s : %s' % (backtrace_info[0], backtrace_info[1])
 
-    def _log(self, args):
-        type = args[0:1]
-        args = args[1:]
+    # if two logs are on the same line (for example in a loop)
+    # then we should not log the backtrace again
+    if backtrace in backtraces:
+        backtrace = None
 
-        # since this is data being transmitted as a header setting
-        # log to empty string is just a way to send less data
-        # the extension defaults to doing console.log
-        if type == 'log':
-            type = ''
+    # store backtraces in list so we can tell later if it was
+    # already used
+    if backtrace is not None:
+        backtraces.append(backtrace)
 
-        logs = []
-        for arg in args:
-            logs.append(self._convert(arg))
+    _add_row(logs, backtrace=backtrace, type=type)
 
-        backtrace_info = traceback.extract_stack()[:-self.backtrace_level].pop()
 
-        # path/to/file.py : line_number
-        backtrace = backtrace_info[0] + ' : ' + str(backtrace_info[1])
+def _add_row(logs, backtrace=None, type=''):
+    global rows
 
-        # if two logs are on the same line (for example in a loop)
-        # then we should not log the backtrace again
-        if backtrace in self.backtraces:
-            backtrace = None
+    row = [logs, backtrace, type]
+    rows.append(row)
 
-        # store backtraces in list so we can tell later if it was
-        # already used
-        if backtrace is not None:
-            self.backtraces.append(backtrace)
+    # if a set_header function is defined then we will
+    # call that with each row added
+    #
+    # this class is a singleton so it will just overwrite
+    # the existing header with more data each time
+    if set_header is not None:
+        header = get_header(flush=False)
+        set_header(header[0], header[1])
 
-        self._add_row(logs, backtrace=backtrace, type=type)
 
-    def _add_row(self, logs, backtrace=None, type=''):
-        global set_header
-
-        row = [logs, backtrace, type]
-        self.json['rows'].append(row)
-
-        # if a set_header function is defined then we will
-        # call that with each row added
-        #
-        # this class is a singleton so it will just overwrite
-        # the existing header with more data each time
-        if set_header is not None:
-            set_header(Console.HEADER_NAME, self._encode(self.json))
-
-    def _encode(self, data):
-        json_data = json.dumps(data)
-        utf8_encode_data = json_data.encode('utf-8')
-        return utf8_encode_data.encode('base64').replace('\n', '')
-
-    def _get_header(self):
-        if len(self.json['rows']) == 0:
-            return None
-
-        return (Console.HEADER_NAME, self._encode(self.json))
+def _encode(data):
+    json_data = json.dumps(data)
+    utf8_encode_data = json_data.encode('utf-8')
+    return utf8_encode_data.encode('base64').replace('\n', '')
 
 
 def reset():
-    Console._instance = None
+    global rows, backtraces
+    rows = []
+    backtraces = []
 
 
 def get_header(flush=True):
-    header = Console.instance()._get_header()
+    header = None
+    if len(rows) > 0:
+        header = (HEADER_NAME, _encode(dict(DATA, rows=rows)))
+
     if flush:
         reset()
 
@@ -125,17 +113,17 @@ def get_header(flush=True):
 
 def log(*args):
     args = ('log',) + args
-    Console.instance()._log(args)
+    _log(args)
 
 
 def warn(*args):
     args = ('warn',) + args
-    Console.instance()._log(args)
+    _log(args)
 
 
 def error(*args):
     args = ('error',) + args
-    Console.instance()._log(args)
+    _log(args)
 
 
 # this is middleware for django.  ater this module is installed just add
