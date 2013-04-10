@@ -4,6 +4,8 @@ Chromelogger is a Python library for logging variables to the Google Chrome cons
 
 For more information about Chrome Logger check out [http://chromelogger.com](http://chromelogger.com).
 
+This module is designed to be used during development and not in production.  It is not thread safe, and you do not want to risk leaking sensitive data to users!
+
 ## Getting Started
 
 1. Install [Chrome Logger](https://chrome.google.com/extensions/detail/noaneddfkdjfnfdakjjmocngnfkfehhd) from the Chrome Web Store
