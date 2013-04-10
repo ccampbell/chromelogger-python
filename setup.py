@@ -3,13 +3,13 @@ from setuptools import setup
 # magic
 setup(
     name='chromelogger',
-    version='0.2.2',
+    version='0.3.0',
     description='Python library for logging data to Google Chrome console.',
     long_description='Chrome Logger allows you to send server side logs from your application to the Chrome Logger extension.',
     author='Craig Campbell',
     author_email='iamcraigcampbell@gmail.com',
     url='https://github.com/ccampbell/chromelogger-python',
-    download_url='https://github.com/ccampbell/chromelogger-python/archive/0.2.2.zip#egg=chromelogger-0.2.2',
+    download_url='https://github.com/ccampbell/chromelogger-python/archive/0.3.0.zip#egg=chromelogger-0.3.0',
     license='Apache 2.0',
     install_requires=['jsonpickle'],
     py_modules=['chromelogger'],
