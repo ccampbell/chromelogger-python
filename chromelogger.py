@@ -126,6 +126,31 @@ def error(*args):
     _log(args)
 
 
+def info(*args):
+    args = ('info',) + args
+    _log(args)
+
+
+def group(*args):
+    args = ('group',) + args
+    _log(args)
+
+
+def group_end(*args):
+    args = ('groupEnd',) + args
+    _log(args)
+
+
+def group_collapsed(*args):
+    args = ('groupCollapsed',) + args
+    _log(args)
+
+
+def table(*args):
+    args = ('table',) + args
+    _log(args)
+
+
 # this is middleware for django.  ater this module is installed just add
 # "chromelogger.DjangoMiddleware" to your MIDDLEWARE_CLASSES in settings.py
 #
