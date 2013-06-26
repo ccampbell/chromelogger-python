@@ -72,6 +72,11 @@ The chromelogger module exposes some of the chrome logger methods.  The others w
 ### chromelogger.log(*args)
 ### chromelogger.warn(*args)
 ### chromelogger.error(*args)
+### chromelogger.info(*args)
+### chromelogger.group(*args)
+### chromelogger.group_end(*args)
+### chromelogger.group_collapsed(*args)
+### chromelogger.table(*args)
 
 Logs data to the console.  You can pass any number of arguments just as you would in the browser.
 
