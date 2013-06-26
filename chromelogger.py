@@ -23,7 +23,7 @@ import jsonpickle
 # @todo do not do this globally
 jsonpickle.tags.OBJECT = '___class_name'
 
-version = '0.3.0'
+version = '0.4.0'
 HEADER_NAME = 'X-ChromeLogger-Data'
 BACKTRACE_LEVEL = 2
 DATA = {
