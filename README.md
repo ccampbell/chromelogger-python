@@ -44,6 +44,19 @@ MIDDLEWARE_CLASSES = (
 
 After that you can import the chromelogger class from any file in your application and add logs.
 
+### Using with web2py
+```python
+import chromelogger as console
+from datetime import datetime
+now = datetime.now()
+
+@console.ChromeLoggerWeb2Py(response=response)
+def index():
+    console.log(now)
+    return dict()
+```
+
+
 ### Using with Tornado
 
 Using with tornado is slightly more complicated.  You have to make sure you are using your own custom request handler and that all your requests you want logged inherit from that.  Here is an example of how you could implement it
