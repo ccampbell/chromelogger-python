@@ -15,6 +15,7 @@
 # uses Chrome Logger extension for logging
 # @see https://chrome.google.com/webstore/detail/noaneddfkdjfnfdakjjmocngnfkfehhd
 # @see http://chromelogger.com
+import logging
 import json
 import traceback
 import jsonpickle
@@ -166,3 +167,9 @@ class DjangoMiddleware(object):
             response[header[0]] = header[1]
 
         return response
+
+class ChromeLoggerHandler(logging.Handler):
+    
+    def emit(self, record):
+        _log((record.levelname.lower(), self.format(record)))
+
