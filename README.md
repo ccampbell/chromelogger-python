@@ -65,6 +65,26 @@ class CustomRequestHandler(tornado.web.RequestHandler):
         return super(CustomRequestHandler, self).finish(chunk=chunk)
 ```
 
+### Using with Flask
+
+For using chromelogger with Flask, you can use a custom response-handler like this:
+
+```python
+# put this somewhere in your application setup
+
+if app.debug:
+    import chromelogger as console
+ 
+    @app.after_request
+    def chromelogger(response):
+        header = console.get_header()
+        if header is not None:
+            response.headers.add(*header)
+        return response
+```
+
+This ensures that chromelogger is only active, if the apllication runs in debug-mode.
+
 ## API Documentation
 
 The chromelogger module exposes some of the chrome logger methods.  The others will be coming in a future release.
