@@ -18,6 +18,7 @@
 import json
 import traceback
 import jsonpickle
+from base64 import b64encode
 
 # use custom name
 # @todo do not do this globally
@@ -90,8 +91,8 @@ def _add_row(logs, backtrace=None, type=''):
 
 def _encode(data):
     json_data = json.dumps(data)
-    utf8_encode_data = json_data.encode('utf-8')
-    return utf8_encode_data.encode('base64').replace('\n', '')
+    utf8_encode_data = json_data.encode()
+    return b64encode(utf8_encode_data)
 
 
 def reset():
