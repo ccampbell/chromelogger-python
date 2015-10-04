@@ -1,4 +1,4 @@
-# Copyright 2014 Craig Campbell
+# Copyright 2015 Craig Campbell
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ from base64 import b64encode
 # @todo do not do this globally
 jsonpickle.tags.OBJECT = '___class_name'
 
-version = '0.4.0'
+version = '0.4.2'
 HEADER_NAME = 'X-ChromeLogger-Data'
 BACKTRACE_LEVEL = 2
 DATA = {
