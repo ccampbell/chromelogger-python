@@ -24,7 +24,7 @@ from base64 import b64encode
 # @todo do not do this globally
 jsonpickle.tags.OBJECT = '___class_name'
 
-version = '0.4.2'
+version = '0.4.3'
 HEADER_NAME = 'X-ChromeLogger-Data'
 BACKTRACE_LEVEL = 2
 DATA = {
