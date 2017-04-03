@@ -167,3 +167,15 @@ class DjangoMiddleware(object):
             response[header[0]] = header[1]
 
         return response
+        
+class ChromeLoggerWeb2Py(object):
+    def __init__(self, response):
+        self.response = response
+
+    def __call__(self, fn):
+        rt = fn()
+        headers_console = get_header()
+        if headers_console != None:
+            self.response.headers[headers_console[0]] = headers_console[1]
+        return lambda: rt
+
