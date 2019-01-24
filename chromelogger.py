@@ -152,6 +152,12 @@ def table(*args):
     _log(args)
 
 
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
+
+
 # this is middleware for django.  ater this module is installed just add
 # "chromelogger.DjangoMiddleware" to your MIDDLEWARE_CLASSES in settings.py
 #
@@ -160,7 +166,7 @@ def table(*args):
 # chromelogger.log('Hello world!')
 #
 # from anywhere in your Django application
-class DjangoMiddleware(object):
+class DjangoMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         header = get_header()
         if header is not None:
