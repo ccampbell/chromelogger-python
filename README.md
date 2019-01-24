@@ -37,9 +37,9 @@ Since every framework deals with setting headers slightly differently the librar
 The library includes a middleware for using with Django.  All you have to do is in your ``settings.py`` file make sure to update your list of middleware and add
 
 ```python
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [  # Or MIDDLEWARE_CLASSES on Django < 1.10
     'chromelogger.DjangoMiddleware'
-)
+]
 ```
 
 After that you can import the chromelogger class from any file in your application and add logs.
@@ -74,7 +74,7 @@ For using chromelogger with Flask, you can use a custom response-handler like th
 
 if app.debug:
     import chromelogger as console
- 
+
     @app.after_request
     def chromelogger(response):
         header = console.get_header()
