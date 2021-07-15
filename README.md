@@ -83,7 +83,7 @@ if app.debug:
         return response
 ```
 
-This ensures that chromelogger is only active, if the apllication runs in debug-mode.
+This ensures that chromelogger is only active, if the application runs in debug-mode.
 
 ## API Documentation
 
