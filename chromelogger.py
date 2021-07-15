@@ -152,7 +152,7 @@ def table(*args):
     _log(args)
 
 
-# this is middleware for django.  ater this module is installed just add
+# this is middleware for django.  after this module is installed just add
 # "chromelogger.DjangoMiddleware" to your MIDDLEWARE_CLASSES in settings.py
 #
 # after that you can just
