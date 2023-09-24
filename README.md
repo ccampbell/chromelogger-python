@@ -21,7 +21,6 @@ This module is designed to be used during development and not in production.  It
     ```
 
 4.  Start logging
-
     ```python
     import chromelogger as console
     console.log('Hello console!')
